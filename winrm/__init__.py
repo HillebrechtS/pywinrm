@@ -4,6 +4,7 @@ from base64 import b64encode
 import xml.etree.ElementTree as ET
 
 from winrm.protocol import Protocol
+from charamel import Detector
 
 # Feature support attributes for multi-version clients.
 # These values can be easily checked for with hasattr(winrm, "FEATURE_X"),
@@ -68,6 +69,11 @@ class Session(object):
             try:
                 # remove the namespaces from the xml for easier processing
                 msg_xml = self._strip_namespace(msg_xml)
+
+                detector = Detector()
+                found_encoding = detector.detect(msg_xml)
+                msg_xml = msg_xml.decode(found_encoding)
+
                 root = ET.fromstring(msg_xml)
                 # the S node is the error message, find all S nodes
                 nodes = root.findall("./S")
@@ -76,6 +82,7 @@ class Session(object):
                     # append error msg string to result, also
                     # the hex chars represent CRLF so we replace with newline
                     new_msg += s.text.replace("_x000D__x000A_", "\n")
+                return new_msg.encode()
             except Exception as e:
                 # if any of the above fails, the msg was not true xml
                 # print a warning and return the orignal string
@@ -91,7 +98,7 @@ class Session(object):
 
         # either failed to decode CLIXML or there was nothing to decode
         # just return the original message
-        return msg
+        return msg.encode()
 
     def _strip_namespace(self, xml):
         """strips any namespaces from an xml string"""

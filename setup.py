@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-__version__ = '0.4.1'
+__version__ = '0.4.3'
 project_name = 'pywinrm'
 
 # PyPi supports only reStructuredText, so pandoc should be installed
@@ -17,13 +17,13 @@ setup(
     description='Python library for Windows Remote Management',
     long_description=long_description,
     keywords='winrm ws-man devops ws-management'.split(' '),
-    author='Alexey Diyan',
-    author_email='alexey.diyan@gmail.com',
-    url='http://github.com/diyan/pywinrm/',
+    author='Simon Hillebrecht',
+    author_email='simon.hillebrecht@schiffl.de',
+    url='https://github.com/HillebrechtS/pywinrm',
     license='MIT license',
     packages=find_packages(),
     package_data={'winrm.tests': ['*.ps1']},
-    install_requires=['xmltodict', 'requests>=2.9.1', 'requests_ntlm>=0.3.0', 'six'],
+    install_requires=['xmltodict', 'requests>=2.9.1', 'requests_ntlm>=0.3.0', 'six', 'charamel'],
     extras_require={
         'credssp': ['requests-credssp>=1.0.0'],
         'kerberos:sys_platform=="win32"': ['winkerberos>=0.5.0'],
@@ -37,10 +37,6 @@ setup(
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
