@@ -82,19 +82,14 @@ class Session(object):
                     # append error msg string to result, also
                     # the hex chars represent CRLF so we replace with newline
                     new_msg += s.text.replace("_x000D__x000A_", "\n")
-                return new_msg.encode()
             except Exception as e:
                 # if any of the above fails, the msg was not true xml
                 # print a warning and return the orignal string
                 # TODO do not print, raise user defined error instead
                 print("Warning: there was a problem converting the Powershell"
-                      " error message: %s" % (e))
-            else:
-                # if new_msg was populated, that's our error message
-                # otherwise the original error message will be used
-                if len(new_msg):
-                    # remove leading and trailing whitespace while we are here
-                    return new_msg.strip().encode('utf-8')
+                      " error message: %s" % e)
+
+            return new_msg.strip().encode()
 
         # either failed to decode CLIXML or there was nothing to decode
         # just return the original message
